@@ -29,7 +29,7 @@ export default function Home() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: "#fff" }}>
       <View
         style={{
           display: "flex",

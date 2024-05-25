@@ -8,8 +8,10 @@ import {
   View,
 } from "react-native";
 import Color from "../../Shared/Color";
+import { useNavigation } from "@react-navigation/native";
 
 export default function TopHeadlineSlider({ newsList }) {
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -22,6 +24,7 @@ export default function TopHeadlineSlider({ newsList }) {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity
+            onPress={() => navigation.navigate("readNews", { news: item })}
             style={{
               width: Dimensions.get("screen").width * 0.77,
               marginEnd: 15,
