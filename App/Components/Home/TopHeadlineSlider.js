@@ -7,29 +7,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import GlobalApi from "../../Services/GlobalApi";
 import Color from "../../Shared/Color";
 
-export default function TopHeadlineSlider() {
-  const [newsList, setNewsList] = useState([]);
-
-  useEffect(() => {
-    getTopHeadline();
-  }, []);
-
-  const getTopHeadline = async () => {
-    try {
-      const result = await GlobalApi.getTopHeadline();
-      if (result && result.articles) {
-        setNewsList(result.articles);
-      } else {
-        console.error("Invalid data format", result);
-      }
-    } catch (error) {
-      console.error("Error fetching top headlines:", error);
-    }
-  };
-
+export default function TopHeadlineSlider({ newsList }) {
   return (
     <View
       style={{
