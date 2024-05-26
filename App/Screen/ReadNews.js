@@ -1,15 +1,28 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Share,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Color from "../Shared/Color";
 import { Ionicons } from "@expo/vector-icons";
+import * as WebBrowser from "expo-web-browser";
 
 export default function ReadNews() {
   const news = useRoute().params.news;
-  //   useEffect(() => {}, []);
+  const navigation = useNavigation();
+  const shareNews = () => {
+    Share.share({
+      message: news.title + "\nRead More" + news.description,
+    });
+  };
 
   return (
-    <View style={{ backgroundColor: "#fff", flex: 1 }}>
+    <ScrollView style={{ backgroundColor: "#fff", flex: 1 }}>
       <View
         style={{
           display: "flex",
@@ -20,11 +33,19 @@ export default function ReadNews() {
           marginEnd: 30,
         }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <Ionicons name="arrow-back" size={28} color="black" />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            shareNews();
+          }}
+        >
           <Ionicons name="share-outline" size={28} color="black" />
         </TouchableOpacity>
       </View>
@@ -64,17 +85,23 @@ export default function ReadNews() {
         {news.description}
       </Text>
 
-      <Text
-        style={{
-          marginTop: 10,
-          color: Color.primary,
-          fontSize: 16,
-          marginEnd: 30,
-          fontWeight: "bold",
+      <TouchableOpacity
+        onPress={() => {
+          WebBrowser.openBrowserAsync(news.url);
         }}
       >
-        Read More
-      </Text>
-    </View>
+        <Text
+          style={{
+            marginTop: 10,
+            color: Color.primary,
+            fontSize: 16,
+            marginEnd: 30,
+            fontWeight: "bold",
+          }}
+        >
+          Read More
+        </Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
